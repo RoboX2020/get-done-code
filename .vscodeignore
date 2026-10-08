@@ -4,3 +4,5 @@ out/test/**
 tsconfig.json
 .gitignore
 node_modules/**
+test-workspace/**
+.vscode-test/**
