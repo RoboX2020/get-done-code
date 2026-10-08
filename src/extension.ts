@@ -6,6 +6,7 @@ const KEY = 'getDone.state';
 let panel: vscode.WebviewPanel | undefined;
 
 export function activate(ctx: vscode.ExtensionContext) {
+  const api = { getState: () => state, panelOpen: () => !!panel, lastRewardUrl: '' };
   const cfg = () => vscode.workspace.getConfiguration('getDone');
   const criteria = (): Criterion[] => parseCriteria(cfg().get('criteria'));
   const images = (): string[] => cfg().get<string[]>('rewardImages') ?? [];
@@ -25,6 +26,7 @@ export function activate(ctx: vscode.ExtensionContext) {
         vscode.window.showInformationMessage('Goal hit! Add a reward image link to see your reward.', 'Add image').then(a => a && vscode.commands.executeCommand('getDone.addImage'));
         break;
       }
+      api.lastRewardUrl = url;
       show(ctx, url, state.rewardsEarned);
     }
     save(); refresh();
@@ -88,6 +90,7 @@ export function activate(ctx: vscode.ExtensionContext) {
     vscode.commands.registerCommand('getDone.checkGithub', () => checkGithub(true)),
     vscode.commands.registerCommand('getDone.reset', async () => { state = emptyState(); await save(); refresh(); })
   );
+  return api;
 }
 
 function esc(s: string) { return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
