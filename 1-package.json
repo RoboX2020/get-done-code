@@ -1,0 +1,56 @@
+{
+  "name": "get-done-code",
+  "displayName": "Get Done for Code",
+  "description": "Set your own coding goals (every 100 lines, a daily GitHub contribution). Hit one and a reward image you chose unlocks. Works in VS Code, Cursor and Antigravity.",
+  "version": "0.1.0",
+  "publisher": "robox2020",
+  "license": "MIT",
+  "private": true,
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Other"],
+  "main": "./out/src/extension.js",
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "commands": [
+      { "command": "getDone.showProgress", "title": "Get Done: Show Progress" },
+      { "command": "getDone.addImage", "title": "Get Done: Add Reward Image Link" },
+      { "command": "getDone.previewReward", "title": "Get Done: Preview Next Reward" },
+      { "command": "getDone.checkGithub", "title": "Get Done: Check GitHub Contribution Now" },
+      { "command": "getDone.reset", "title": "Get Done: Reset Progress" }
+    ],
+    "configuration": {
+      "title": "Get Done for Code",
+      "properties": {
+        "getDone.rewardImages": {
+          "type": "array", "items": { "type": "string" }, "default": [],
+          "markdownDescription": "Your own reward image links (https). Shown one at a time, in order, each time a goal is hit."
+        },
+        "getDone.criteria": {
+          "type": "array",
+          "default": [ { "type": "lines", "every": 100 } ],
+          "markdownDescription": "Goals that unlock a reward. Each item: `{ \"type\": \"lines\", \"every\": 100 }` (lines written), `{ \"type\": \"saves\", \"every\": 10 }` (file saves), `{ \"type\": \"minutes\", \"every\": 30 }` (minutes of active typing), or `{ \"type\": \"github\" }` (one reward per day you make a GitHub contribution).",
+          "items": {
+            "type": "object",
+            "required": ["type"],
+            "properties": {
+              "type": { "enum": ["lines", "saves", "minutes", "github"] },
+              "every": { "type": "number", "minimum": 1 }
+            }
+          }
+        },
+        "getDone.githubPollMinutes": { "type": "number", "default": 15, "minimum": 5, "description": "How often to check GitHub for today's contributions (github goal only)." }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "test": "tsc -p . && node --test out/test/core.test.js",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^3.0.0",
+    "typescript": "^5.4.0"
+  }
+}
