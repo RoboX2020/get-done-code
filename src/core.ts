@@ -1,3 +1,15 @@
+// ============================================================================
+// core.ts - the brain of Get Done: all the goal counting, with zero VS Code
+// imports on purpose so it can be unit-tested outside the editor
+// (see test/core.test.ts).
+//
+// THE IDEA: a goal ("criterion") says "every N lines / saves / active
+// minutes, earn a reward" (or "one reward per day for GitHub activity").
+// The State tracks how far along you are toward each goal. Each add*()
+// function adds fresh progress, returns how many rewards that just earned,
+// and keeps the leftover progress toward the next one.
+// ============================================================================
+
 // Pure logic, no vscode imports, so it can be tested headlessly.
 export type Criterion =
   | { type: 'lines'; every: number }

@@ -1,3 +1,10 @@
+// ============================================================================
+// github.ts - answers one question: "how many GitHub contributions has the
+// signed-in user made between these two timestamps?" Used by extension.ts
+// for the daily GitHub goal. Talks to GitHub's GraphQL API directly over
+// HTTPS (no extra dependencies).
+// ============================================================================
+
 import * as https from 'https';
 
 /** Contributions today (commits, PRs, issues, reviews) for the signed-in user, via GitHub GraphQL. */

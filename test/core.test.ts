@@ -1,3 +1,9 @@
+// ============================================================================
+// core.test.ts - the safety net for the goal-counting logic in src/core.ts.
+// Each test below reads like a tiny story ("every 100 lines gives a reward
+// and carries the remainder"). RUN WITH: npm test
+// ============================================================================
+
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { emptyState, parseCriteria, linesAdded, addLines, addSave, addActive, applyGithub, nextImage, isHttpsImage } from '../src/core';
